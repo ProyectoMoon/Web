@@ -57,15 +57,10 @@
       height: 64px;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: 0.6rem;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.4rem; font-weight: 700; letter-spacing: 0.2em;
       color: var(--blue);
       text-decoration: none;
-    }
-    .nav-logo-icon {
-      width: 30px; height: auto;
-      flex-shrink: 0;
     }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
@@ -92,18 +87,6 @@
       background: radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%);
       pointer-events: none;
     }
-    .hero-icon-bg {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -54%);
-      width: clamp(320px, 38vw, 560px);
-      height: auto;
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-      user-select: none;
-    }
-    .hero h1, .hero-tagline, .hero-cta { position: relative; z-index: 1; }
     .hero h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(4rem, 12vw, 9rem);
@@ -476,10 +459,7 @@ footer {
 
   <!-- NAV -->
   <nav>
-    <a class="nav-logo" href="#">
-      <img src="logo-glass.png" alt="" class="nav-logo-icon" aria-hidden="true">
-      MOON
-    </a>
+    <a class="nav-logo" href="#">MOON</a>
     <ul class="nav-links">
       <li><a href="#monitor">Monitor</a></li>
       <li><a href="#objetivo">Objetivo</a></li>
@@ -492,7 +472,6 @@ footer {
 
   <!-- HERO -->
   <section class="hero">
-    <img src="logo-glass.png" alt="" class="hero-icon-bg" aria-hidden="true">
     <h1>MOON</h1>
     <p class="hero-tagline">
       Pulsera inteligente de monitoreo vital. Detecta caídas, mide signos vitales y alerta a tus contactos de emergencia en tiempo real.
