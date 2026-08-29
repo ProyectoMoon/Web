@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="logo.png" type="image/png">
   <title>MOON – Pulsera Inteligente de Monitoreo</title>
+  <meta name="description" content="MOON es una pulsera inteligente que detecta caídas, monitorea signos vitales y alerta a contactos de emergencia en tiempo real. Proyecto de la Escuela de Educación Técnica N°7, Taller Regional Quilmes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MOON – Pulsera Inteligente de Monitoreo" />
+  <meta property="og:description" content="Detecta caídas, mide signos vitales y alerta a tus contactos de emergencia en tiempo real." />
+  <meta property="og:image" content="https://proyectomoon.github.io/Web/logo-glass.png" />
+  <meta property="og:url" content="https://proyectomoon.github.io/Web/" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <style>
@@ -134,7 +141,30 @@
     .hero-cta:hover { background: var(--blue-light); transform: translateY(-2px); }
 
     /* SECTIONS */
-    section { padding: 80px 5%; scroll-margin-top: 64px; }
+    section { padding: 80px 5%; scroll-margin-top: 64px; transition: box-shadow 0.6s ease; }
+    section.pm-highlight { box-shadow: inset 0 0 0 1px var(--blue-light); }
+
+    /* CTA FINAL */
+    #contacto {
+      background: var(--surface);
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    #contacto .section-title { margin-bottom: 0.8rem; }
+    #contacto .section-body { max-width: 480px; margin: 0 auto 2rem; }
+    .contacto-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .contacto-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600; font-size: 0.85rem; letter-spacing: 0.06em;
+      padding: 12px 26px; border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .contacto-btn.primary { background: var(--blue); color: var(--white); }
+    .contacto-btn.primary:hover { background: var(--blue-light); transform: translateY(-2px); }
+    .contacto-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .contacto-btn.secondary:hover { border-color: var(--blue-light); color: var(--moon); transform: translateY(-2px); }
     .section-label {
       font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--blue); margin-bottom: 1rem;
@@ -169,10 +199,10 @@
     .pm-patient-meta { font-size: 13px; color: var(--color-text-secondary); }
     .pm-badges { display: flex; gap: 8px; flex-wrap: wrap; }
     .pm-badge { font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; }
-    .pm-badge-warn { background: #FAEEDA; color: #633806; }
-    .pm-badge-danger { background: #FCEBEB; color: #501313; }
-    .pm-badge-ok { background: #EAF3DE; color: #27500A; }
-    .pm-badge-info { background: #E6F1FB; color: #0C447C; }
+    .pm-badge-warn { background: rgba(239,159,39,0.16); color: #f0b558; border: 1px solid rgba(239,159,39,0.35); }
+    .pm-badge-danger { background: rgba(226,75,74,0.16); color: #f18988; border: 1px solid rgba(226,75,74,0.35); }
+    .pm-badge-ok { background: rgba(99,153,34,0.16); color: #9bd15a; border: 1px solid rgba(99,153,34,0.35); }
+    .pm-badge-info { background: rgba(58,85,153,0.18); color: #8fa8c8; border: 1px solid rgba(58,85,153,0.4); }
     .pm-vitals-title { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 1rem; }
     .pm-vitals { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 1.5rem; }
     .pm-vital { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.1rem 1.25rem; position: relative; overflow: hidden; transition: border-color 0.2s; }
@@ -183,13 +213,21 @@
     .pm-vital-icon.danger { color: #E24B4A; }
     .pm-vital-icon.warning { color: #BA7517; }
     .pm-vital-icon.ok { color: #639922; }
+    #icon-bpm i { display: inline-block; animation: pm-heartbeat 1.4s ease-in-out infinite; }
+    @keyframes pm-heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.18); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.12); }
+      60% { transform: scale(1); }
+    }
     .pm-vital-name { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; font-weight: 500; letter-spacing: 0.05em; }
     .pm-vital-val { font-size: 28px; font-weight: 500; color: var(--color-text-primary); line-height: 1; margin-bottom: 3px; }
     .pm-vital-unit { font-size: 12px; color: var(--color-text-secondary); display: inline; }
     .pm-vital-status { font-size: 12px; font-weight: 600; margin-top: 8px; padding: 3px 10px; border-radius: 12px; display: inline-block; }
-    .status-danger { background: #FCEBEB; color: #A32D2D; }
-    .status-warning { background: #FAEEDA; color: #854F0B; }
-    .status-ok { background: #EAF3DE; color: #3B6D11; }
+    .status-danger { background: rgba(226,75,74,0.16); color: #f18988; border: 1px solid rgba(226,75,74,0.35); }
+    .status-warning { background: rgba(239,159,39,0.16); color: #f0b558; border: 1px solid rgba(239,159,39,0.35); }
+    .status-ok { background: rgba(99,153,34,0.16); color: #9bd15a; border: 1px solid rgba(99,153,34,0.35); }
     .pm-bar { height: 4px; border-radius: 2px; margin-top: 10px; background: var(--color-border-tertiary); }
     .pm-bar-fill { height: 4px; border-radius: 2px; transition: width 0.4s; }
     .pm-diag-title { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 1rem; }
@@ -454,7 +492,16 @@ footer {
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  footer {
+    grid-template-columns: 1fr 1fr; /* dos columnas en tablets */
+  }
+  .footer-right {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+@media (max-width: 640px) {
   footer { 
     grid-template-columns: 1fr; /* Se apila en celulares */
     text-align: center; 
@@ -487,6 +534,7 @@ footer {
       <li><a href="#equipo">Equipo</a></li>
       <li><a href="#cronograma">Cronograma</a></li>
       <li><a href="https://proyectomoon.github.io/Paciente/">Pacientes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
 
@@ -779,6 +827,23 @@ footer {
     </div>
   </section>
 
+  <!-- CTA FINAL -->
+  <section id="contacto">
+    <p class="section-label">¿Querés saber más?</p>
+    <h2 class="section-title">Conocé MOON de cerca</h2>
+    <p class="section-body">
+      Si querés ver el prototipo en persona, sumarte al proyecto o simplemente tenés preguntas, escribinos.
+    </p>
+    <div class="contacto-actions">
+      <a href="mailto:proyectomoon2026@gmail.com" class="contacto-btn primary">
+        <i class="ti ti-mail" aria-hidden="true"></i> Escribinos
+      </a>
+      <a href="https://www.instagram.com/proyectomoon2026/" target="_blank" rel="noopener noreferrer" class="contacto-btn secondary">
+        <i class="ti ti-brand-instagram" aria-hidden="true"></i> Seguinos
+      </a>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
   <div class="footer-left">
@@ -952,6 +1017,17 @@ footer {
 
     renderDiseases();
     update();
+
+    // Highlight sutil al navegar desde el CTA del hero
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => {
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.classList.add('pm-highlight');
+        setTimeout(() => target.classList.remove('pm-highlight'), 900);
+      });
+    });
   </script>
 
 </body>
