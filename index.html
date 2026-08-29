@@ -418,13 +418,12 @@
     .crono-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 
     /* FOOTER */
-   /* FOOTER MODIFICADO - CON PALETA DE COLORES CORREGIDA */
 footer {
   background: var(--night);
   border-top: 1px solid var(--border);
   padding: 2.5rem 5%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* Divide en 3 columnas iguales */
+  grid-template-columns: 1fr 1fr; /* Logo + Institución */
   align-items: start;
   gap: 1.5rem;
 }
@@ -436,41 +435,6 @@ footer {
   font-size: 1.2rem; 
   font-weight: 700; 
   letter-spacing: 0.2em; 
-  color: var(--blue);
-}
-
-/* Sección de Contactos (Centro) */
-.footer-center {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-.footer-contact-label {
-  font-size: 0.65rem; 
-  font-weight: 600; 
-  letter-spacing: 0.15em;
-  text-transform: uppercase; 
-  color: var(--blue);
-  margin-bottom: 0.3rem;
-}
-
-/* Corrección de enlaces */
-.footer-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.82rem;
-  color: var(--text-muted); /* Gris sutil */
-  text-decoration: none; /* Chau subrayado azul */
-  transition: color 0.2s ease;
-}
-.footer-link:hover {
-  color: var(--text); /* Se ilumina al pasar el mouse */
-}
-.footer-link i {
-  font-size: 1rem;
   color: var(--blue);
 }
 
@@ -492,20 +456,11 @@ footer {
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
-  footer {
-    grid-template-columns: 1fr 1fr; /* dos columnas en tablets */
-  }
-  .footer-right {
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-}
 @media (max-width: 640px) {
   footer { 
     grid-template-columns: 1fr; /* Se apila en celulares */
     text-align: center; 
-    gap: 2rem;
+    gap: 1.25rem;
   }
   .footer-left, .footer-right {
     text-align: center;
@@ -528,11 +483,9 @@ footer {
       MOON
     </a>
     <ul class="nav-links">
-      <li><a href="#monitor">Monitor</a></li>
       <li><a href="#objetivo">Objetivo</a></li>
-      <li><a href="#componentes">Componentes</a></li>
+      <li><a href="#monitor">Monitor</a></li>
       <li><a href="#equipo">Equipo</a></li>
-      <li><a href="#cronograma">Cronograma</a></li>
       <li><a href="https://proyectomoon.github.io/Paciente/">Pacientes</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -550,7 +503,46 @@ footer {
 
   <div class="divider"></div>
 
-  <!-- MONITOR DE PACIENTE — ahora primero -->
+  <!-- OBJETIVO -->
+  <section id="objetivo">
+    <p class="section-label">Objetivo</p>
+    <h2 class="section-title">Seguridad para quienes están solos</h2>
+    <p class="objetivo-desc">
+      MOON está diseñado para personas mayores, personas con discapacidad o quienes trabajan solas y no tienen supervisión constante. El dispositivo monitorea en tiempo real y actúa automáticamente ante una emergencia.
+    </p>
+
+    <div class="cards-grid">
+      <div class="feature-card">
+        <i class="ti ti-run card-icon" aria-hidden="true"></i>
+        <p class="card-title">Detección de caídas</p>
+        <p class="card-desc">Detecta automáticamente si el usuario cae y envía una alerta de inmediato.</p>
+      </div>
+      <div class="feature-card">
+        <i class="ti ti-heart-rate-monitor card-icon" aria-hidden="true"></i>
+        <p class="card-title">Frecuencia cardíaca</p>
+        <p class="card-desc">Monitorea el ritmo cardíaco en tiempo real para detectar anomalías.</p>
+      </div>
+      <div class="feature-card">
+        <i class="ti ti-droplet card-icon" aria-hidden="true"></i>
+        <p class="card-title">Oxígeno en sangre</p>
+        <p class="card-desc">Mide el nivel de SpO₂ y alerta ante valores fuera del rango seguro.</p>
+      </div>
+      <div class="feature-card">
+        <i class="ti ti-bell-ringing card-icon" aria-hidden="true"></i>
+        <p class="card-title">Alerta automática</p>
+        <p class="card-desc">El dispositivo activa una alerta de forma automática ante cualquier emergencia detectada.</p>
+      </div>
+      <div class="feature-card">
+        <i class="ti ti-wifi card-icon" aria-hidden="true"></i>
+        <p class="card-title">Notificación WiFi / BT</p>
+        <p class="card-desc">Envía notificaciones vía WiFi o Bluetooth a dispositivos cercanos o remotos.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- MONITOR DE PACIENTE -->
   <section id="monitor">
     <p class="section-label">Demo interactiva</p>
     <h2 class="section-title">Monitor en tiempo real</h2>
@@ -622,45 +614,6 @@ footer {
 
       <div class="pm-diag-title">Diagnóstico automático</div>
       <div class="pm-diags" id="diags"></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- OBJETIVO -->
-  <section id="objetivo">
-    <p class="section-label">Objetivo</p>
-    <h2 class="section-title">Seguridad para quienes están solos</h2>
-    <p class="objetivo-desc">
-      MOON está diseñado para personas mayores, personas con discapacidad o quienes trabajan solas y no tienen supervisión constante. El dispositivo monitorea en tiempo real y actúa automáticamente ante una emergencia.
-    </p>
-
-    <div class="cards-grid">
-      <div class="feature-card">
-        <i class="ti ti-run card-icon" aria-hidden="true"></i>
-        <p class="card-title">Detección de caídas</p>
-        <p class="card-desc">Detecta automáticamente si el usuario cae y envía una alerta de inmediato.</p>
-      </div>
-      <div class="feature-card">
-        <i class="ti ti-heart-rate-monitor card-icon" aria-hidden="true"></i>
-        <p class="card-title">Frecuencia cardíaca</p>
-        <p class="card-desc">Monitorea el ritmo cardíaco en tiempo real para detectar anomalías.</p>
-      </div>
-      <div class="feature-card">
-        <i class="ti ti-droplet card-icon" aria-hidden="true"></i>
-        <p class="card-title">Oxígeno en sangre</p>
-        <p class="card-desc">Mide el nivel de SpO₂ y alerta ante valores fuera del rango seguro.</p>
-      </div>
-      <div class="feature-card">
-        <i class="ti ti-bell-ringing card-icon" aria-hidden="true"></i>
-        <p class="card-title">Alerta automática</p>
-        <p class="card-desc">El dispositivo activa una alerta de forma automática ante cualquier emergencia detectada.</p>
-      </div>
-      <div class="feature-card">
-        <i class="ti ti-wifi card-icon" aria-hidden="true"></i>
-        <p class="card-title">Notificación WiFi / BT</p>
-        <p class="card-desc">Envía notificaciones vía WiFi o Bluetooth a dispositivos cercanos o remotos.</p>
-      </div>
     </div>
   </section>
 
@@ -848,16 +801,6 @@ footer {
   <footer>
   <div class="footer-left">
     <span class="footer-logo">MOON</span>
-  </div>
-  
-  <div class="footer-center">
-    <div class="footer-contact-label">Contactos</div>
-    <a href="mailto:proyectomoon2026@gmail.com" class="footer-link">
-      <i class="ti ti-mail"></i> proyectomoon2026@gmail.com
-    </a>
-    <a href="https://www.instagram.com/proyectomoon2026/" target="_blank" rel="noopener noreferrer" class="footer-link">
-      <i class="ti ti-brand-instagram"></i> proyectomoon2026
-    </a>
   </div>
 
   <div class="footer-right">
