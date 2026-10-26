@@ -267,6 +267,26 @@
     .pm-disease-pill { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.15s; user-select: none; }
     .pm-disease-pill.active { background: #1e2840; color: #8fa8c8; border-color: #3a5599; }
 
+    /* DETECCIÓN DE CAÍDAS (demo) */
+    .pt-fall-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.1rem 1.25rem; margin-bottom: 1.5rem; transition: border-color 0.25s; }
+    .pt-fall-card.is-active { border-color: #639922; }
+    .pt-fall-card.is-alert { border-color: #E24B4A; animation: pm-alarm-flash 1s infinite; }
+    @keyframes pm-alarm-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
+    .pt-fall-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .pt-fall-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--color-background-secondary); border: 1.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--moon); flex-shrink: 0; }
+    .pt-fall-card.is-active .pt-fall-icon { border-color: #639922; color: #9bd15a; }
+    .pt-fall-card.is-alert .pt-fall-icon { border-color: #E24B4A; color: #f18988; }
+    .pt-fall-info { flex: 1; min-width: 150px; }
+    .pt-fall-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+    .pt-fall-sub { font-size: 12px; color: var(--text-dim); }
+    .pt-fall-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.9rem; font-size: 12.5px; color: var(--text-muted); }
+    .pt-fall-metrics b { color: var(--text); font-weight: 500; }
+    .pt-fall-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 0.9rem; }
+    .pm-sim-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; padding: 8px 16px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: border-color 0.2s, color 0.2s; }
+    .pm-sim-btn:hover:not([disabled]) { border-color: var(--blue-light); color: var(--moon); }
+    .pm-sim-btn[disabled] { opacity: 0.5; cursor: default; }
+    .pt-fall-dismiss { display: none; background: #E24B4A; color: #fff; border: none; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+
     /* OBJETIVO */
     #objetivo { background: var(--deep); }
 
@@ -599,11 +619,6 @@ footer {
           <input type="range" id="bpm-ctrl" min="30" max="180" step="1" value="78" oninput="update()">
           <span class="pm-ctrl-val" id="bpm-show">78 bpm</span>
         </div>
-        <div class="pm-ctrl-row">
-          <span class="pm-ctrl-label"><i class="ti ti-temperature" aria-hidden="true"></i> Temperatura</span>
-          <input type="range" id="temp-ctrl" min="34" max="42" step="0.1" value="36.8" oninput="update()">
-          <span class="pm-ctrl-val" id="temp-show">36.8 °C</span>
-        </div>
       </div>
 
       <div class="pm-patient">
@@ -639,12 +654,24 @@ footer {
           <div class="pm-bar"><div class="pm-bar-fill" id="bar-bpm" style="width:55%;background:#639922"></div></div>
           <div class="pm-vital-status" id="status-bpm"></div>
         </div>
-        <div class="pm-vital" id="card-temp">
-          <div class="pm-vital-icon" id="icon-temp"><i class="ti ti-temperature" aria-hidden="true"></i></div>
-          <div class="pm-vital-name">Temperatura corporal</div>
-          <div><span class="pm-vital-val" id="val-temp">36.8</span><span class="pm-vital-unit"> °C</span></div>
-          <div class="pm-bar"><div class="pm-bar-fill" id="bar-temp" style="width:50%;background:#639922"></div></div>
-          <div class="pm-vital-status" id="status-temp"></div>
+      </div>
+
+      <div class="pm-vitals-title">Detección de caídas</div>
+      <div class="pt-fall-card" id="fall-card">
+        <div class="pt-fall-head">
+          <div class="pt-fall-icon" id="fall-icon"><i class="ti ti-user-check" aria-hidden="true"></i></div>
+          <div class="pt-fall-info">
+            <div class="pt-fall-title" id="fall-title">Monitoreando</div>
+            <div class="pt-fall-sub" id="fall-sub">Acelerómetro activo</div>
+          </div>
+        </div>
+        <div class="pt-fall-metrics">
+          <div>Aceleración: <b id="fall-g">1.00</b> g</div>
+          <div>Última caída: <b id="fall-last">Ninguna</b></div>
+        </div>
+        <div class="pt-fall-controls">
+          <button type="button" class="pm-sim-btn" id="btn-fall" onclick="simulateFall()"><i class="ti ti-user-down" aria-hidden="true"></i> Simular caída</button>
+          <button type="button" class="pt-fall-dismiss" id="fall-dismiss" onclick="dismissFall()">Estoy bien (falsa alarma)</button>
         </div>
       </div>
 
@@ -880,18 +907,13 @@ footer {
     function update() {
       const spo2 = parseFloat(document.getElementById('spo2-ctrl').value);
       const bpm = parseInt(document.getElementById('bpm-ctrl').value);
-      const temp = parseFloat(document.getElementById('temp-ctrl').value);
 
       document.getElementById('spo2-show').textContent = spo2 + ' %';
       document.getElementById('bpm-show').textContent = bpm + ' bpm';
-      document.getElementById('temp-show').textContent = temp.toFixed(1) + ' °C';
-
       document.getElementById('val-spo2').textContent = spo2;
       document.getElementById('val-bpm').textContent = bpm;
-      document.getElementById('val-temp').textContent = temp.toFixed(1);
 
-      let spo2State, bpmState, tempState;
-
+      let spo2State, bpmState;
       if (spo2 < 90) spo2State = 'danger';
       else if (spo2 < 95) spo2State = 'warning';
       else spo2State = 'ok';
@@ -901,19 +923,14 @@ footer {
       else if (bpm < 60 || bpm > 100 || hasArritmia) bpmState = 'warning';
       else bpmState = 'ok';
 
-      if (temp >= 39) tempState = 'danger';
-      else if (temp >= 37.5) tempState = 'warning';
-      else if (temp < 35.5) tempState = 'danger';
-      else tempState = 'ok';
+      const col = s => s==='ok' ? '#639922' : s==='warning' ? '#EF9F27' : '#E24B4A';
+      setVital('spo2', spo2State, ((spo2-80)/20)*100, col(spo2State));
+      setVital('bpm', bpmState, Math.min(((bpm-30)/150)*100,100), col(bpmState));
 
-      setVital('spo2', spo2State, spo2 + ' %', ((spo2-80)/20)*100, spo2State==='ok'?'#639922':spo2State==='warning'?'#EF9F27':'#E24B4A');
-      setVital('bpm', bpmState, bpm + ' bpm', Math.min(((bpm-30)/150)*100,100), bpmState==='ok'?'#639922':bpmState==='warning'?'#EF9F27':'#E24B4A');
-      setVital('temp', tempState, temp.toFixed(1)+' °C', Math.min(((temp-34)/8)*100,100), tempState==='ok'?'#639922':tempState==='warning'?'#EF9F27':'#E24B4A');
-
-      buildDiags(spo2, spo2State, bpm, bpmState, temp, tempState);
+      buildDiags(spo2, spo2State, bpm, bpmState);
     }
 
-    function setVital(id, state, _val, pct, color) {
+    function setVital(id, state, pct, color) {
       const card = document.getElementById('card-'+id);
       const icon = document.getElementById('icon-'+id);
       const bar = document.getElementById('bar-'+id);
@@ -924,24 +941,17 @@ footer {
       bar.style.background = color;
       const labels = {
         spo2: { ok:'Normal', warning:'Bajo', danger:'Crítico' },
-        bpm: { ok:'Normal', warning:'Irregular', danger:'Crítico' },
-        temp: { ok:'Normal', warning:'Fiebre', danger:'Peligroso' }
+        bpm: { ok:'Normal', warning:'Irregular', danger:'Crítico' }
       };
       statusEl.textContent = labels[id][state];
       statusEl.className = 'pm-vital-status status-'+state;
     }
 
-    function buildDiags(spo2, s0, bpm, sb, temp, st) {
+    function buildDiags(spo2, s0, bpm, sb) {
       const diags = [];
 
-      if (st === 'danger' && temp >= 39) {
-        diags.push({ cls:'danger', icon:'ti-flame', title:'Fiebre alta', body:`Temperatura de ${temp.toFixed(1)} °C. Riesgo de convulsiones. Se recomienda asistencia médica inmediata.` });
-      } else if (st === 'warning') {
-        diags.push({ cls:'warning', icon:'ti-thermometer', title:'Fiebre leve', body:`Temperatura de ${temp.toFixed(1)} °C. Mantener hidratado al paciente y monitorear cada 30 minutos.` });
-      } else if (st === 'danger' && temp < 35.5) {
-        diags.push({ cls:'danger', icon:'ti-snowflake', title:'Hipotermia', body:`Temperatura de ${temp.toFixed(1)} °C, por debajo del rango seguro. Requiere atención inmediata.` });
-      } else {
-        diags.push({ cls:'ok', icon:'ti-temperature', title:'Temperatura normal', body:`Temperatura de ${temp.toFixed(1)} °C dentro del rango fisiológico (35.5–37.4 °C).` });
+      if (fallState === 'alert') {
+        diags.push({ cls:'danger', icon:'ti-alert-triangle', title:'Caída detectada', body:'El paciente no se movió después del impacto. Se envía una alerta automática a los contactos de emergencia.' });
       }
 
       if (s0 === 'danger') {
@@ -975,15 +985,11 @@ footer {
       if (active.has('epoc') && spo2 < 95) {
         diags.push({ cls:'warning', icon:'ti-lungs', title:'Alerta EPOC', body:'La SpO₂ baja combinada con EPOC indica posible exacerbación. Evaluar broncodilatador.' });
       }
-      if (active.has('diabetes') && temp >= 38) {
-        diags.push({ cls:'warning', icon:'ti-droplet-half-2', title:'Alerta Diabetes + Fiebre', body:'En pacientes diabéticos, la fiebre eleva la glucosa y aumenta riesgo de descompensación. Monitorear glucemia.' });
-      }
       if (active.has('hta') && bpm > 100) {
         diags.push({ cls:'warning', icon:'ti-gauge', title:'Alerta Hipertensión', body:'La taquicardia en pacientes hipertensos puede indicar crisis hipertensiva. Medir presión arterial.' });
       }
 
-      const el = document.getElementById('diags');
-      el.innerHTML = diags.map(d =>
+      document.getElementById('diags').innerHTML = diags.map(d =>
         `<div class="pm-diag diag-${d.cls}">
           <i class="ti ${d.icon} pm-diag-icon ${d.cls}" aria-hidden="true"></i>
           <div>
@@ -992,6 +998,65 @@ footer {
           </div>
         </div>`
       ).join('');
+    }
+
+    /* ---- Simulador de caídas ---- */
+    let fallState = 'idle'; // 'idle' | 'impact' | 'alert'
+    let fallTick = null, fallTimer = null;
+    const FALL_SIM_MS = 3000;
+
+    function fallUI(mode, title, sub) {
+      const card = document.getElementById('fall-card');
+      const icon = document.getElementById('fall-icon');
+      card.classList.remove('is-active', 'is-alert');
+      document.getElementById('fall-dismiss').style.display = 'none';
+      if (mode === 'alert') {
+        card.classList.add('is-alert');
+        icon.innerHTML = '<i class="ti ti-alert-triangle" aria-hidden="true"></i>';
+        document.getElementById('fall-dismiss').style.display = 'inline-block';
+      } else {
+        card.classList.add('is-active');
+        icon.innerHTML = '<i class="ti ti-user-check" aria-hidden="true"></i>';
+      }
+      document.getElementById('fall-title').textContent = title;
+      document.getElementById('fall-sub').textContent = sub;
+    }
+
+    function setFallButtons(disabled) {
+      document.getElementById('btn-fall').disabled = disabled;
+    }
+
+    function showG(g) { document.getElementById('fall-g').textContent = g.toFixed(2); }
+
+    function runImpact(onEnd) {
+      if (fallState !== 'idle') return;
+      fallState = 'impact';
+      setFallButtons(true);
+      showG(5.0);
+      fallUI('active', 'Impacto detectado', 'Verificando si la persona se levanta...');
+      fallTick = setInterval(() => {
+        showG(1 + (Math.random() - 0.5) * 0.1);
+      }, 200);
+      fallTimer = setTimeout(() => { clearInterval(fallTick); onEnd(); }, FALL_SIM_MS);
+    }
+
+    function simulateFall() {
+      runImpact(() => {
+        fallState = 'alert';
+        showG(1.0);
+        const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('fall-last').textContent = 'Hoy ' + hora;
+        fallUI('alert', '¡Caída detectada!', 'El paciente no se movió después del impacto');
+        update();
+      });
+    }
+
+    function dismissFall() {
+      fallState = 'idle';
+      showG(1.0);
+      fallUI('active', 'Monitoreando', 'Acelerómetro activo');
+      setFallButtons(false);
+      update();
     }
 
     // Menú hamburguesa (celular)
@@ -1005,6 +1070,7 @@ footer {
     });
 
     renderDiseases();
+    fallUI('active', 'Monitoreando', 'Acelerómetro activo');
     update();
 
     // Highlight sutil al navegar desde el CTA del hero
