@@ -525,6 +525,161 @@ footer {
       footer { flex-direction: column; text-align: center; }
       .cards-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /* ==========================================================================
+       REDISEÑO (mismo estilo que la página de pacientes)
+       Usa SOLO los colores del proyecto MOON y sus letras de siempre
+       (Space Grotesk e Inter). Solo cambia el aspecto: no cambia textos ni lógica.
+       ========================================================================== */
+    :root {
+      --ok: #639922;   --ok-text: #9bd15a;   --ok-soft: rgba(99,153,34,0.16);   --ok-line: rgba(99,153,34,0.35);
+      --warn: #EF9F27; --warn-text: #f0b558; --warn-soft: rgba(239,159,39,0.16); --warn-line: rgba(239,159,39,0.35);
+      --crit: #E24B4A; --crit-text: #f18988; --crit-soft: rgba(226,75,74,0.16); --crit-line: rgba(226,75,74,0.35);
+      --shadow: 0 10px 30px -12px rgba(0,0,0,0.6);
+      --radius: 16px;
+      --border-radius-lg: 16px;
+      --border-radius-md: 12px;
+    }
+    body {
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(58,85,153,0.10), transparent 60%), var(--night);
+      -webkit-font-smoothing: antialiased;
+    }
+    nav { border-bottom-color: var(--border); }
+
+    /* Títulos de sección */
+    .section-label { color: var(--blue-light); letter-spacing: 0.18em; }
+    .section-title { font-weight: 700; letter-spacing: -0.01em; }
+    .pm-vitals-title, .pm-diag-title, .pm-ctrl-title {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; letter-spacing: 0.16em; color: var(--text-muted);
+      margin: 0 0 0.9rem;
+    }
+    .pm-vitals-title::after, .pm-diag-title::after, .pm-ctrl-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* Botones */
+    .hero-cta, .contacto-btn.primary {
+      background: linear-gradient(180deg, #3a5599, #243869);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px -8px rgba(58,85,153,0.55);
+    }
+    .hero-cta:hover, .contacto-btn.primary:hover { background: #3a5599; }
+    .contacto-btn.secondary, .pm-sim-btn { border-radius: 999px; }
+    .contacto-btn.secondary { border-radius: 10px; }
+    .hero-cta:focus-visible, .contacto-btn:focus-visible, .pm-sim-btn:focus-visible, .nav-links a:focus-visible {
+      outline: 2px solid #8fa8c8; outline-offset: 2px;
+    }
+
+    /* Tarjetas en general: degradé suave, borde fino y sombra */
+    .feature-card, .component-card, .contrib-card, .crono-item,
+    .pm-controls, .pm-patient, .pm-vital, .pt-fall-card {
+      background: linear-gradient(180deg, var(--card), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .feature-card:hover, .component-card:hover, .contrib-card:hover, .crono-item:hover { border-color: var(--blue-light); }
+    .feature-card { padding: 22px 18px; }
+    .feature-card .card-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(58,85,153,0.18); border: 1px solid rgba(58,85,153,0.4);
+    }
+    .component-body { padding: 1.5rem; }
+    .component-name, .contrib-name, .crono-fase { font-weight: 700; }
+    .contrib-card { padding: 1.5rem; }
+    .contrib-avatar, .member-initials { border-radius: 12px; background: linear-gradient(135deg, #3a5599, #243869); border: none; color: var(--white); }
+    .member-pill { background: linear-gradient(180deg, var(--card), var(--surface)); }
+    .crono-item { padding: 1.25rem 1.5rem; }
+    .crono-num {
+      min-width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(58,85,153,0.18); border: 1px solid rgba(58,85,153,0.4);
+      color: #8fa8c8; font-size: 1rem;
+    }
+
+    /* ---- Demo del monitor ---- */
+    .pm-controls { padding: 1.25rem 1.5rem; }
+    .pm-ctrl-row input[type=range] { accent-color: #3a5599; }
+    .pm-ctrl-val { font-family: 'Space Grotesk', sans-serif; font-variant-numeric: tabular-nums; }
+    .pm-disease-pill { padding: 7px 16px; }
+    .pm-disease-pill.active { background: rgba(58,85,153,0.18); color: #8fa8c8; border-color: #3a5599; }
+
+    .pm-patient { padding: 1.1rem 1.25rem; gap: 14px; }
+    .pm-avatar {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: linear-gradient(135deg, #3a5599, #243869); border: none; color: var(--white);
+      font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700;
+    }
+    .pm-patient-name { font-size: 17px; font-weight: 600; }
+    .pm-badge { font-size: 11.5px; padding: 4px 11px; }
+
+    /* Signos vitales: números grandes, ícono y borde según el estado, sin barra */
+    .pm-vitals { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 1.75rem; }
+    .pm-vital {
+      padding: 1.25rem 1.35rem 1.2rem;
+      display: grid; grid-template-columns: 1fr auto;
+      grid-template-areas: "name icon" "val icon" "status status";
+      align-items: start;
+    }
+    .pm-vital.ok { border-color: var(--ok-line); }
+    .pm-vital.warning { border-color: rgba(239,159,39,0.45); }
+    .pm-vital.danger { border-color: rgba(226,75,74,0.6); }
+    .pm-vital-name { grid-area: name; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .pm-vital > div:nth-of-type(3) { grid-area: val; }
+    .pm-vital-icon {
+      grid-area: icon; width: 44px; height: 44px; border-radius: 14px; margin: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      background: rgba(255,255,255,0.04); color: var(--text-muted);
+    }
+    .pm-vital-icon.ok { background: var(--ok-soft); color: var(--ok); }
+    .pm-vital-icon.warning { background: var(--warn-soft); color: var(--warn); }
+    .pm-vital-icon.danger { background: var(--crit-soft); color: var(--crit); }
+    .pm-vital-val {
+      font-family: 'Space Grotesk', sans-serif; font-size: 46px; font-weight: 600;
+      letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+    }
+    .pm-vital-unit { font-size: 14px; margin-left: 2px; }
+    .pm-bar { display: none; }
+    .pm-vital-status { grid-area: status; justify-self: start; margin-top: 12px; font-size: 11.5px; letter-spacing: 0.03em; padding: 4px 11px; }
+    .pm-vital-status:empty { display: none; }
+
+    /* Caídas */
+    .pt-fall-card { padding: 1.15rem 1.25rem; }
+    .pt-fall-icon {
+      width: 46px; height: 46px; border-radius: 14px;
+      background: rgba(58,85,153,0.18); border: 1px solid rgba(58,85,153,0.4); color: #8fa8c8;
+    }
+    .pt-fall-card.is-active { border-color: var(--ok-line); }
+    .pt-fall-card.is-active .pt-fall-icon { background: var(--ok-soft); border-color: var(--ok-line); color: var(--ok); }
+    .pt-fall-card.is-alert .pt-fall-icon { background: var(--crit-soft); border-color: var(--crit-line); color: var(--crit); }
+    .pt-fall-title { font-size: 15px; font-weight: 600; }
+    .pt-fall-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+    .pt-fall-metrics > div { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; }
+    .pt-fall-metrics b { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-variant-numeric: tabular-nums; }
+    .pt-fall-dismiss { border-radius: 999px; padding: 9px 18px; }
+
+    /* Diagnóstico */
+    .pm-diags { gap: 10px; }
+    .pm-diag {
+      background: linear-gradient(180deg, var(--card), var(--surface));
+      border: 1px solid var(--border); border-left-width: 3px;
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .pm-diag.diag-ok { border-left-color: var(--ok); }
+    .pm-diag.diag-warning { border-left-color: var(--warn); }
+    .pm-diag.diag-danger { border-left-color: var(--crit); }
+    .pm-diag-head { font-weight: 600; }
+
+    @media (max-width: 640px) {
+      .pm-vitals { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .pm-vital { padding: 1rem; grid-template-areas: "name" "val" "status"; grid-template-columns: 1fr; }
+      .pm-vital-icon { display: none; }
+      .pm-vital-name { font-size: 12px; min-height: 2.6em; }
+      .pm-vital-val { font-size: 38px; }
+      .pm-ctrl-label { width: 100%; }
+    }
+    @media (max-width: 360px) { .pm-vitals { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
